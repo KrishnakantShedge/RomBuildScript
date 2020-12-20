@@ -5,11 +5,11 @@
 
 # Export some variables
 # make_clean (yes/no/installclean/deviceclean)
-user=
-lunch=
-device_codename=avicii
+user=kkshedge
+lunch=ssos
+device_codename=RMX1851
 build_type=userdebug
-tg_username=
+tg_username=@Kkshedge
 OUT_PATH="out/target/product/$device_codename"
 use_ccache=yes
 make_clean=no
