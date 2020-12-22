@@ -139,7 +139,7 @@ make bacon -j16 |& tee  "/home/${user}/downloads/buildlogs/${BUILDFILE}"
 END=$(date +%s)
 TIME=$(echo $((${END}-${START})) | awk '{print int($1/60)" Minutes and "int($1%60)" Seconds"}')
 
-ROM=${OUT_PATH}/StagOS*.zip
+ROM=${OUT_PATH}/ShapeShiftOS*.zip
 if [ -f $ROM ]; then
 
 cp $ROM /home/${user}/downloads/
