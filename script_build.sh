@@ -29,11 +29,33 @@ EOT
   fi
 }
 
+function setVar {
+    hours=$((i/3600))
+    minutes=$(( $((i/60)) - $((hours*60))))
+    seconds=$(( i - $((hours*60*60)) -  $((minutes*60))))
+    if [ $hours = 1 ]; then
+        h="Hour"
+    else
+       h="Hours"
+    fi
+    if [ $minutes = 1 ]; then
+        m="Minute"
+    else
+        m="Minutes"
+    fi
+    if [ $seconds = 1 ]; then
+        s="Second"
+    else
+        s="Seconds"
+    fi
+}
+
 i=0
 echo -n "Test Line might be deleted"
 while { set -C; ! 2>/dev/null > /tmp/manlocktest.lock; }; do
   ((i=i+1))
   uname2=$(ls -l /tmp/manlocktest.lock | awk '{print $3}');
+  setVar
   if [ $uname2 = $USER ]; then
         echo -e "Warning you can't wait while you are building"
         exit 1
@@ -41,15 +63,16 @@ while { set -C; ! 2>/dev/null > /tmp/manlocktest.lock; }; do
         hours=$((i/3600))
         minutes=$(( $((i/60)) - $((hours*60))))
         seconds=$(( i - $((hours*60*60)) -  $((minutes*60))))
-        pr="$hours hours $minutes minutes $seconds seconds"
+        pr="$hours $h $minutes $m $seconds $s      "
   elif [ $i -lt 60 ]; then
-        pr="$i seconds"
+        pr="$i $s  "
   else
         minutes=$((i/60))
         seconds=$(( i - $((minutes*60))))
-        pr="$minutes minutes $seconds seconds"
+        pr="$minutes $m $seconds $s    "
   fi
-  echo -n -e "\r${uname2} Building. Waiting ${i} times"
+
+  echo -n -e "\r${uname2} Building. Waiting for $pr"
   sleep 10
 done
 trap finish EXIT SIGINT
